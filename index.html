@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Underhay - Principal Security Consultant</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn-uicons.flaticon.com/2.3.0/uicons-brands/css/uicons-brands.css" rel="stylesheet">
+    <style>
+        .timeline-section {
+            background: linear-gradient(to bottom, rgba(31, 41, 55, 0.1), rgba(31, 41, 55, 0.3)), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"%3E%3Cpath fill="%239CA3AF" fill-opacity="0.2" d="M1 3h1v1H1V3zm2-2h1v1H3V1z"%3E%3C/path%3E%3C/svg%3E');
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .timeline-card {
+            position: relative;
+            height: auto;
+            min-height: 120px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(59, 130, 246, 0.1);
+        }
+
+        .timeline-card.left {
+            margin-right: calc(50% + 20px);
+        }
+
+        .timeline-card.right {
+            margin-left: calc(50% + 20px);
+        }
+
+        .timeline-card:hover,
+        .timeline-card.active {
+            transform: translateY(-4px);
+        }
+
+        .timeline-card.position:hover,
+        .timeline-card.position.active {
+            box-shadow: 0 6px 22px var(--color-info);
+            border: 2px solid var(--color-info);
+        }
+
+        .timeline-card.certification:hover,
+        .timeline-card.certification.active {
+            box-shadow: 0 6px 22px var(--color-success);
+            border: 2px solid var(--color-success);
+        }
+
+        .timeline-card.blog:hover,
+        .timeline-card.blog.active {
+            box-shadow: 0 6px 22px var(--color-warning);
+            border: 2px solid var(--color-warning);
+        }
+
+        .timeline-card.conference-talk:hover,
+        .timeline-card.conference-talk.active {
+            box-shadow: 0 6px 22px var(--color-error);
+            border: 2px solid var(--color-error);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            background:  repeating-linear-gradient(to bottom, var(--color-primary) 0, var(--color-primary) 4px, transparent 4px, transparent 8px);
+            box-shadow: 0 0 8px var(--color-primary);
+            height: 100%;
+            z-index: 0;
+        }
+
+        .card-side figure {
+            width: 140px;
+            min-width: 140px;
+        }
+
+        .card-side figure img.cert-img {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            padding: 10px 0;
+        }
+
+        .card-side figure img.consultant-img {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            padding: 10px 0;
+        }
+
+        .card-side figure img.talk-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-side figure img.blog-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1rem;
+            flex-grow: 1;
+        }
+
+        .timeline-card.no-image .card-body {
+            width: 100%;
+        }
+
+        .details {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+            margin-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .timeline-card:hover .details,
+        .timeline-card.active .details {
+            opacity: 1;
+            max-height: 300px;
+            margin-top: 0.5rem;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 8px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background:  var(--color-primary);;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 6px var(--color-primary);
+            z-index: 1;
+        }
+
+        .timeline-card.left::before {
+            right: -26.5px;
+        }
+        .timeline-card.right::before {
+            left: -26.5px;
+        }
+
+        .card-title {
+            position: relative;
+            transition: color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .expertise-container {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow-x: auto;
+            padding: 0 1rem;
+        }
+
+        .expertise-hex {
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .expertise-hex:hover {
+            background: var(--color-accent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .hex-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            line-height: 1.3;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .social-icon {
+            font-size: 26px;
+            margin: 0 8px;
+            color: #9ca3af;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--color-accent);
+            transform: scale(1.1);
+        }
+
+        .project-card {
+            background: rgba(31, 41, 55, 0.8);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover {
+            background: rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .project-card figure {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .project-card figure img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Crop image to fit */
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover figure img {
+            transform: scale(1.05);
+            /* Slight zoom on hover */
+        }
+
+        .project-card .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #60a5fa;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            margin-top: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .project-link {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #3b82f6;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #60a5fa;
+        }
+
+        footer {
+            background: #111827;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        /* Animations */
+        @keyframes rotateGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+
+        /* Mobile View */
+        @media (max-width: 768px) {
+            .timeline-card {
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                border: none;
+            }
+
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .timeline-card::before {
+                content: none;
+                /* Remove dots */
+            }
+
+            .card-side {
+                flex-direction: column;
+            }
+
+            .card-side figure {
+                width: 100%;
+                min-width: 100%;
+                height: 140px;
+            }
+
+            .card-side figure img.cert-img {
+                height: 85%;
+                padding: 0;
+            }
+
+            .card-side figure img.consultant-img {
+                height: 85%;
+                padding: 0;
+            }
+
+            .card-side figure img.blog-img {
+                height: 100%;
+            }
+
+            .timeline-card.no-image .card-body {
+                padding: 1rem;
+            }
+
+            .card-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+
+            .tag {
+                margin-top: 0;
+            }
+
+            .hero {
+                padding-top: 3rem;
+                min-height: auto;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .expertise-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                overflow-x: hidden;
+                gap: 0.75rem;
+            }
+
+            .expertise-hex {
+                width: 100px;
+                /* Smaller hexagons */
+                height: 100px;
+                padding: 0.5rem;
+            }
+
+            .hex-text {
+                font-size: 0.75rem;
+                /* Smaller text */
+            }
+
+            .social-icon {
+                font-size: 20px;
+                margin: 0 6px;
+            }
+
+            .project-card figure {
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .expertise-hex {
+                width: 90px;
+                height: 90px;
+            }
+
+            .hex-text {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans text-base-content min-h-screen">
+    <section class="hero min-h-[50vh] pt-20 bg-base-300">
+        <div class="hero-content text-center">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white">Daniel Underhay</h1>
+                <p class="mt-3 text-xl text-gray-300">Principal Security Consultant</p>
+                <p class="mt-2 text-md text-gray-400">8+ Years in Cybersecurity</p>
+                <div class="expertise-container">
+                    <div class="expertise-hex bg-gray-800 mask mask-hexagon">
+                        <span class="hex-text">Red Teaming / Adversarial Simulations</span>
+                    </div>
+                    <div class="expertise-hex bg-gray-800 mask mask-hexagon">
+                        <span class="hex-text">Physical Security</span>
+                    </div>
+                    <div class="expertise-hex bg-gray-800 mask mask-hexagon">
+                        <span class="hex-text">Web Application Testing</span>
+                    </div>
+                    <div class="expertise-hex bg-gray-800 mask mask-hexagon">
+                        <span class="hex-text">Internal Network Reviews</span>
+                    </div>
+                    <div class="expertise-hex bg-gray-800 mask mask-hexagon">
+                        <span class="hex-text">Offensive Cloud Reviews</span>
+                    </div>
+                    <div class="expertise-hex bg-gray-800 mask mask-hexagon">
+                        <span class="hex-text">Phishing</span>
+                    </div>
+                </div>
+                <div class="mt-12 mb-6">
+                    <a href="https://github.com/dunderhay" target="_blank">
+                        <i class="fi fi-brands-github social-icon"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/daniel-underhay/" target="_blank">
+                        <i class="fi fi-brands-linkedin social-icon"></i>
+                    </a>
+                    <a href="https://x.com/dunderhay" target="_blank">
+                        <i class="fi fi-brands-twitter social-icon"></i>
+                    </a>
+                    <a href="https://dunderhay.github.io/" target="_blank">
+                        <i class="fi fi-ss-site"></i>
+                    </a> 
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="py-16 px-4 bg-gray-800 timeline-section">
+        <h2 class="text-3xl text-primary-content text-center mb-10">Career Timeline</h2>
+        <div class="max-w-5xl mx-auto mb-12 flex justify-center">
+            <div class="join join-horizontal flex-wrap gap-4">
+                <label class="join-item flex items-center cursor-pointer">
+                    <input type="checkbox" class="checkbox checkbox-info mr-2" checked data-filter="position" aria-label="Filter Positions">
+                    <span class="badge badge badge-info">Positions</span>
+                </label>
+                <label class="join-item flex items-center cursor-pointer">
+                    <input type="checkbox" class="checkbox checkbox-success mr-2" checked data-filter="certification" aria-label="Filter Certifications">
+                    <span class="badge badge badge-success">Certifications</span>
+                </label>
+                <label class="join-item flex items-center cursor-pointer">
+                    <input type="checkbox" class="checkbox checkbox-warning mr-2" checked data-filter="blog" aria-label="Filter Blogs">
+                    <span class="badge badge badge-warning">Blog Posts</span>
+                </label>
+                <label class="join-item flex items-center cursor-pointer">
+                    <input type="checkbox" class="checkbox checkbox-error mr-2" checked data-filter="conference-talk" aria-label="Filter Talks">
+                    <span class="badge badge badge-error">Conference Talks</span>
+                </label>
+            </div>
+        </div>
+
+
+        <div class="max-w-5xl mx-auto relative timeline-container">
+            <div class="timeline-line"></div>
+            <div class="lg:tooltip tooltip-open w-full md:w-[48%]" data-tip="Hover over cards for more details!" id="tooltip-hint">
+                        </div>
+
+
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] blog skeleton" id="first-timeline-card">
+                <figure><img
+                        src="https://research.aurainfosec.io/pentest/modifying-certipy-to-evade-mdi-pkinit-detection/feature.png"
+                        alt="Blog Logo" class="blog-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Modifying Certipy to Evade Microsoft Defender<span class="badge badge-outline badge-warning">Blog</span></h3>
+                    <p class="text-primary-content/80">Jan 2025</p>
+                    
+                    <div class="details">
+                        <p>Published a blog post detailing modifications to Certipy to bypass PKINIT detection in
+                            Microsoft Defender for Identity.</p>
+                            <div class="flex w-full mt-4">
+                        <a href="https://research.aurainfosec.io/pentest/modifying-certipy-to-evade-mdi-pkinit-detection/"
+                            target="_blank" class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                    </div>
+                </div>
+            
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 ml-auto mr-0 w-full md:w-[48%] blog">
+                <figure><img src="https://research.aurainfosec.io/pentest/logitech-mk-120-mouse-implant/feature.jpg"
+                        alt="Blog Logo" class="blog-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Cost Effective Covert Implant for Red Teamers<span class="badge badge-outline badge-warning">Blog</span></h3>
+                    <p class="text-primary-content/80">Jan 2025</p>
+                    <div class="details">
+                        <p>Blog post about a more cost-effective covert implant for red team assessments.</p>
+                            <div class="flex w-full mt-4">
+                        <a href="https://research.aurainfosec.io/pentest/logitech-mk-120-mouse-implant/" target="_blank"
+                            class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] blog">
+                <figure><img src="https://research.aurainfosec.io/pentest/git-rotate/featured.png" alt="Blog Logo"
+                        class="blog-img" loading="lazy">
+                </figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Git-Rotate: Bypassing Microsoft Entra Lockout<span class="badge badge-outline badge-warning">Blog</span></h3>
+                    <p class="text-primary-content/80">Mar 2024</p>
+                    <div class="details">
+                        <p>Demonstrated a technique to bypass IP-based blocking by rotating request origin IPs using GitHub Actions. Successfully
+                        used this to evade Microsoft Entra Smart Lockout mechanisms on several red team engagements when performing password spraying attacks.</p>
+                            <div class="flex w-full mt-4">
+                        <a href="https://research.aurainfosec.io/pentest/git-rotate/" target="_blank"
+                            class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] conference-talk">
+                <figure><img src="https://raw.githubusercontent.com/TeamWalrus/tusk/main/images/tusk-pcb-v0-3.jpg" alt="Tusk" class="blog-img"
+                        loading="lazy">
+                </figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Fan-Tastic RFID Thief<span class="badge badge-outline badge-error">Talk</span></h3>
+                    <p class="text-primary-content/80">2023</p>
+                    <div class="details">
+                        <p>Presented my enhancements to an old weaponized RFID reader tool at BSides Canberra.</p>
+                        <div class="flex w-full mt-4">
+                        <a href="https://research.aurainfosec.io/content/talks/tusk.pdf" target="_blank"
+                            class="btn btn-primary btn-sm">View Slides</a>
+                        <div class="divider divider-horizontal"></div>
+                        <a href="https://github.com/TeamWalrus/tusk" target="_blank" class="btn btn-primary btn-sm">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] blog">
+                <figure><img src="https://research.aurainfosec.io/pentest/hook-line-and-phishlet/feature.png"
+                        alt="Blog Logo" class="blog-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Hook, Line, and Phishlet: Conquering AD FS<span class="badge badge-outline badge-warning">Blog</span></h3>
+                    <p class="text-primary-content/80">Aug 2023</p>
+                    <div class="details">
+                        <p>Published a detailed walkthrough on modifying and using the Evilginx phishing framework to target environments
+                        leveraging Active Directory Federation Services (AD FS).</p>
+                        <div class="flex w-full mt-4">
+                        <a href="https://research.aurainfosec.io/pentest/hook-line-and-phishlet/" target="_blank"
+                            class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] position">
+                <figure><img src="https://cdn-icons-png.flaticon.com/512/1320/1320457.png" alt="security-consultant"
+                        class="consultant-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Principal Security Consultant<span class="badge badge-outline badge-info">Position</span></h3>
+                    <p class="text-primary-content/80">Aug 2022</p>
+                    <div class="details">
+                        <p>Promoted to Principal Security Consultant, leading high-impact red team engagements, adversarial simulations, internal network assessments and identifying attack paths within Azure cloud environments. Oversee team
+                        research initiatives and contribute to the development of custom tools, research into new and emerging attack techniques, and internal knowledge sharing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] certification">
+                <figure><img
+                        src="https://images.credly.com/size/340x340/images/ebefd276-7f47-4aa8-b1d8-4a13636e4851/image.png"
+                        alt="OSEP Logo" class="cert-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">OSEP Certification<span class="badge badge-outline badge-success">Certification</span></h3>
+                    <p class="text-primary-content/80">Mar 2021</p>
+                    <div class="details">
+                        <p>Achieved the Offensive Security Experienced Penetration Tester (OSEP) certification.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 ml-auto mr-0 w-full md:w-[48%] blog">
+                <figure><img src="https://research.aurainfosec.io/pentest/v380-ip-camera/featured.png" alt="Blog Logo"
+                        class="blog-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">CCTV: Now You See Me, Now You Don't<span class="badge badge-outline badge-warning">Blog</span></h3>
+                    <p class="text-primary-content/80">Feb 2021</p>
+                    <div class="details">
+                        <p>Finding vulnerabilities on the V380 IP camera.</p>
+                        <div class="flex w-full mt-4">
+                        <a href="https://research.aurainfosec.io/pentest/v380-ip-camera/" target="_blank"
+                            class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] certification">
+                <figure><img
+                        src="https://images.credly.com/size/340x340/images/b1da1cd4-98da-48de-b604-b5d2b72ac696/image.png"
+                        alt="OSCE Logo" class="cert-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">OSCE Certification<span class="badge badge-outline badge-success">Certification</span></h3>
+                    <p class="text-primary-content/80">May 2019</p>
+                    <div class="details">
+                        <p>Achieved the Offensive Security Certified Expert (OSCE) certification.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 ml-auto mr-0 w-full md:w-[48%] blog">
+                <figure><img src="https://dunderhay.github.io/images/vulnserver/gmon/gmon-short-jump1-3.png"
+                        alt="immunity-debugger" class="blog-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Exploiting vulnserver Blog Series<span class="badge badge-outline badge-warning">Blog</span>
+                    </h3>
+                    <p class="text-primary-content/80">2019</p>
+                    <div class="details">
+                        <p>Wrote a series of blog posts on exploiting vulnserver (TRUN, GMON, KSTET).</p>
+                        <div class="flex w-full mt-4">
+                        <a href="https://dunderhay.github.io/posts/vulnserver/trun/" target="_blank"
+                            class="btn btn-primary btn-sm">TRUN</a> 
+                            <div class="divider divider-horizontal"></div>
+                        <a href="https://dunderhay.github.io/posts/vulnserver/gmon/" target="_blank"
+                            class="btn btn-primary btn-sm">GMON</a>
+                            <div class="divider divider-horizontal"></div>
+                        <a href="https://dunderhay.github.io/posts/vulnserver/kstet/" target="_blank"
+                            class="btn btn-primary btn-sm">KSTET</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] blog">
+                <figure><img src="https://www.bleepstatic.com/images/news/u/986406/Logos/Adobe_Logo.png"
+                        alt="Adobe-logo-bleeping" class="blog-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Adobe Path Traversal (CVE-2019-8074)<span class="badge badge-outline badge-warning">Blog</span></h3>
+                    <p class="text-primary-content/80">2019</p>
+                    <div class="details">
+                        <p>Discovery of a critical path traversal vulnerability in Adobe ColdFusion.
+                        </p>
+                        <div class="flex w-full mt-4">
+                        <a href="https://dunderhay.github.io/posts/bugs/cve-2019-8074/" target="_blank"
+                            class="btn btn-primary btn-sm">Read More</a> 
+                            <div class="divider divider-horizontal"></div>
+                        <a href="https://www.bleepingcomputer.com/news/security/adobe-fixes-critical-security-vulnerabilities-in-coldfusion/"
+                            target="_blank" class="btn btn-primary btn-sm">Bulletin</a>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] position">
+                <figure><img src="https://cdn-icons-png.flaticon.com/512/1320/1320457.png" alt="security-consultant"
+                        class="consultant-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Senior Security Consultant<span class="badge badge-outline badge-info">Position</span></h3>
+                    <p class="text-primary-content/80">Jul 2018</p>
+                    <div class="details">
+                        <p>Promoted to Senior Security Consultant, with a focus on internal network penetration testing, red teaming, physical security assessments, and web application
+                        testing. This role also included mentoring junior team members and contributing to the development of internal capabilities such as tool creation and process documentation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] conference-talk">
+                <figure><img src="https://avatars.githubusercontent.com/u/39316146" alt="walrus-logo" class="talk-img" loading="lazy">
+                </figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Project Walrus<span class="badge badge-outline badge-error">Talk</span></h3>
+                    <p class="text-primary-content/80">2018</p>
+                    <div class="details">
+                        <p>Presented Project Walrus, an Android front-end for the Proxmark3 RDV4 card cloning device at OzSecCon, Defcon 26, Troopers, Blackhat Arsenal, and BSides
+                            Wellington.</p>
+                            <div class="flex w-full mt-4">
+                        <a href="https://www.youtube.com/watch?v=PKXlqKDk_BU" target="_blank"
+                            class="btn btn-primary btn-sm">Watch</a>
+                            <div class="divider divider-horizontal"></div>
+                        <a href="https://github.com/TeamWalrus/Walrus" target="_blank"
+                            class="btn btn-primary btn-sm">GitHub</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] certification">
+                <figure><img
+                        src="https://images.credly.com/size/340x340/images/ec81134d-e80b-4eb5-ae07-0eb8e1a60fcd/image.png"
+                        alt="OSCP Logo" class="cert-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">OSCP Certification<span class="badge badge-outline badge-success">Certification</span></h3>
+                    <p class="text-primary-content/80">Dec 2016</p>
+                    <div class="details">
+                        <p>Achieved the Offensive Security Certified Professional (OSCP) certification.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-card card card-side bg-gray-700 shadow-md mb-16 w-full md:w-[48%] position">
+                <figure><img src="https://cdn-icons-png.flaticon.com/512/1320/1320457.png" alt="security-consultant"
+                        class="consultant-img" loading="lazy"></figure>
+                <div class="card-body">
+                    <h3 class="card-title text-primary-content text-xl flex justify-between items-center">Security Consultant<span class="badge badge-outline badge-info">Position</span></h3>
+                    <p class="text-primary-content/80">Jul 2016</p>
+                    <div class="details">
+                        <p>Began career as a Security Consultant. Covered a range of services such as web application, mobile, wireless, external and internal networking infrastructure, and phishing simulations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-5xl mx-auto">
+            <div class="divider divider-primary"></div>
+            <h2 class="text-3xl font-bold text-white text-center mb-12">Side Projects</h2>
+
+                <div class="carousel carousel-center max-w-5xl p-4 space-x-4 rounded-box">
+                    <div class="carousel-item project-card card bg-base-200">
+                        <figure class="h-48">
+                            <img src="https://raw.githubusercontent.com/dunderhay/Kawaiicon-Box-CTF-2019/refs/heads/master/box-challenge.jpg"
+                                alt="Phishing Tool" class="object-cover w-full h-full" loading="lazy"/>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title project-title">Kawaiicon Box Challenge</h3>
+                            <p class="project-desc">A CTF style hackable box challenge I made for Kawaiicon.</p>
+                            <div class="card-actions mt-4">
+                                <a href="https://github.com/dunderhay/Kawaiicon-Box-CTF-2019" target="_blank"
+                                    class="btn btn-primary btn-sm">View on GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item project-card card bg-base-200">
+                        <figure class="h-48">
+                            <img src="https://raw.githubusercontent.com/dunderhay/Secret-Santa-for-Hackers/refs/heads/main/Oshirase-Neko/images/meow.jpg"
+                                alt="IoT Scanner" class="object-cover w-full h-full" loading="lazy"/>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title project-title">Secret Santa for Hackers</h3>
+                            <p class="project-desc">Security-themed gifts I've built.</p>
+                            <div class="card-actions mt-4">
+                                <a href="https://github.com/dunderhay/Secret-Santa-for-Hackers" target="_blank"
+                                    class="btn btn-primary btn-sm">View on GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </section>
+    
+    <script>
+        const cards = document.querySelectorAll('.timeline-card');
+        const filterCheckboxes = document.querySelectorAll('input[data-filter]');
+        const timelineCards = document.querySelectorAll('.timeline-card');
+        const tooltip = document.getElementById('tooltip-hint');
+        const firstCard = document.getElementById('first-timeline-card');
+
+        window.addEventListener('scroll', () => {
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if (cardTop < window.innerHeight - 100) {
+                    card.classList.add('opacity-100');
+                    card.classList.remove('opacity-0');
+                }
+            });
+        });
+
+        cards.forEach(card => {
+            const collapseInput = card.querySelector('.collapse input');
+            card.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    collapseInput.checked = !collapseInput.checked;
+                }
+            });
+        });
+
+        let hasHovered = false;
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (!hasHovered) {
+                    tooltip.remove();
+                    firstCard.classList.remove('skeleton');
+                    hasHovered = true;
+                }
+            });
+        });
+
+        function updateTimeline() {
+            const activeFilters = Array.from(filterCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.dataset.filter);
+
+            timelineCards.forEach(card => {
+                const cardType = card.classList.contains('position') ? 'position' :
+                    card.classList.contains('certification') ? 'certification' :
+                        card.classList.contains('blog') ? 'blog' :
+                            card.classList.contains('conference-talk') ? 'conference-talk' : null;
+
+                if (activeFilters.length === 0 || activeFilters.includes(cardType)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const visibleCards = Array.from(timelineCards).filter(card => card.style.display === 'flex');
+            visibleCards.forEach((card, index) => {
+                card.classList.remove('left', 'right');
+                card.classList.add(index % 2 === 0 ? 'left' : 'right');
+            });
+
+            const timelineLine = document.querySelector('.timeline-line');
+            timelineLine.style.display = visibleCards.length > 0 ? 'block' : 'none';
+        }
+
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateTimeline);
+        });
+
+        document.addEventListener('DOMContentLoaded', updateTimeline);
+    </script>
+
+</body>
+</html>
