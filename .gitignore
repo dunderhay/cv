@@ -1,0 +1,20 @@
+# Dependencies — restored from package-lock.json via `npm ci`
+node_modules/
+
+# Build output — the CSS is compiled in CI (.github/workflows/deploy.yml)
+# and deployed straight to GitHub Pages, so it is never committed.
+# For a local preview, generate it with `npm run build:css`.
+dist/
+
+# CI staging directory for the Pages artifact
+_site/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
