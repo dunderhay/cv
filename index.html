@@ -71,10 +71,14 @@
             background-image: none;
         }
 
-        /* Hovering an inactive filter fills it in (a preview of activating it) */
-        .timeline-filter:has(.timeline-filter-input:not(:checked)):hover {
-            --btn-bg: var(--btn-color);
-            color: var(--btn-fg);
+        /* Hovering an inactive filter fills it in (a preview of activating it).
+           Gated to devices with a real hover, so that on touch a tap to switch
+           a filter off doesn't leave it stuck looking filled (sticky :hover). */
+        @media (hover: hover) {
+            .timeline-filter:has(.timeline-filter-input:not(:checked)):hover {
+                --btn-bg: var(--btn-color);
+                color: var(--btn-fg);
+            }
         }
 
         /* Keyboard focus ring on the label when its hidden input is focused */
